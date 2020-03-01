@@ -1,0 +1,4 @@
+rootProject.name = 'kotlin-big-integer'
+
+
+enableFeaturePreview('GRADLE_METADATA')
