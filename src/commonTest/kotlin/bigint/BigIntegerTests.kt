@@ -259,6 +259,62 @@ class BigIntegerOperationsTest {
     }
 
     @Test
+    fun test_shr_20() {
+        val x = TBigInteger(20)
+        assertEquals(TBigInteger(10), x shr 1)
+    }
+
+    @Test
+    fun test_shl_20() {
+        val x = TBigInteger(20)
+        assertEquals(TBigInteger(40), x shl 1)
+    }
+
+    @Test
+    fun test_shl_1_0() {
+        assertEquals(TBigInteger.ONE, TBigInteger.ONE shl 0)
+    }
+
+    @Test
+    fun test_shl_1_32() {
+        assertEquals(TBigInteger(0x100000000UL), TBigInteger.ONE shl 32)
+    }
+
+    @Test
+    fun test_shl_1_33() {
+        assertEquals(TBigInteger(0x200000000UL), TBigInteger.ONE shl 33)
+    }
+
+    @Test
+    fun test_shr_1_33_33() {
+        assertEquals(TBigInteger.ONE, (TBigInteger.ONE shl 33) shr 33)
+    }
+
+    @Test
+    fun test_shr_1_32() {
+        assertEquals(TBigInteger.ZERO, TBigInteger.ONE shr 32)
+    }
+
+    @Test
+    fun test_and_123_456() {
+        val x = TBigInteger(123)
+        val y = TBigInteger(456)
+        assertEquals(TBigInteger(72), x and y)
+    }
+
+    @Test
+    fun test_or_123_456() {
+        val x = TBigInteger(123)
+        val y = TBigInteger(456)
+        assertEquals(TBigInteger(507), x or y)
+    }
+
+    @Test
+    fun test_asd() {
+        assertEquals(TBigInteger.ONE, TBigInteger.ZERO or ((TBigInteger(20) shr 4) and TBigInteger.ONE))
+    }
+
+    @Test
     fun testDivision_6_3() {
         val x = TBigInteger(6)
         val y = 3U
@@ -276,6 +332,17 @@ class BigIntegerOperationsTest {
 
         val res = x / y
         val div = TBigInteger(2)
+
+        assertEquals(div, res)
+    }
+
+    @Test
+    fun testDivision_20_3() {
+        val x = TBigInteger(10)
+        val y = TBigInteger(3)
+
+        val res = x / y
+        val div = TBigInteger(3)
 
         assertEquals(div, res)
     }
@@ -320,6 +387,17 @@ class BigIntegerOperationsTest {
 
         val res = x / y
         val div = TBigInteger(0xffffffffL)
+
+        assertEquals(div, res)
+    }
+
+    @Test
+    fun testBigDivision_0xfffffffeabcdef01_0xfffffffeabcUL() {
+        val x = TBigInteger(0xfffffffeabcdef01UL)
+        val y = TBigInteger(0xfffffffeabcUL)
+
+        val res = x / y
+        val div = TBigInteger(0x100000L)
 
         assertEquals(div, res)
     }
@@ -385,7 +463,7 @@ class BigIntegerOperationsTest {
         val exp = TBigInteger(2)
         val mod = TBigInteger(0xfffffffeabcUL)
 
-        val res = TBigInteger(0x6deec7895faUL)
+        val res = TBigInteger(0xc2253cde01)
 
         return assertEquals(res, x.modPow(exp, mod))
     }
